@@ -1,3 +1,13 @@
+"""
+######################################
+#
+# 﫥  @author   : 00xWolf
+#   GitHub    : @mmsaeed509
+#   Developer : Mahmoud Mohamed
+#
+######################################
+"""
+
 from collections import Counter
 import numpy as np
 from sklearn import datasets
@@ -5,6 +15,8 @@ from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from sklearn.neighbors import KNeighborsClassifier
+import COLORS
+
 
 # calculate distance between x, y (use to get distance between input and dataset in line No. 29) #
 def euclidean_distance(x1, x2):
@@ -14,6 +26,8 @@ def euclidean_distance(x1, x2):
 
 class KNN:
     def __init__(self, k=3):
+        self.y_train = None
+        self.X_train = None
         self.k = k
 
     def fit(self, X, y):
@@ -33,7 +47,7 @@ class KNN:
         k_indices = np.argsort(distances)[:self.k]
         k_nearest_labels = [self.y_train[i] for i in k_indices]
 
-        # majority voye (most comman) #
+        # majority vote (most common) #
         most_common = Counter(k_nearest_labels).most_common()
         return most_common[0][0]
 
@@ -54,14 +68,20 @@ clf = KNN(k=5)
 clf.fit(X_train, y_train)  # train #
 predictions = clf.predict(X_test)  # test (predict) #
 
+print(COLORS.BOLD_HIGH_INTENSITY_RED + "[*] Printing Info.")
+print(COLORS.BOLD_HIGH_INTENSITY_CYAN + "[+] The class that input belongs to: ")
 print(predictions)  # print class that input belongs to #
 
 acc = np.sum(predictions == y_test) / len(y_test)  # calculate accuracy #
-print("Knn From scratch accuracy: " + str(acc))  # print accuracy percentage #
+print(COLORS.BOLD_HIGH_INTENSITY_PURPLE + "[+] Knn From scratch accuracy: " + str(acc))  # print accuracy percentage #
 
 # compare #
 neigh = KNeighborsClassifier(n_neighbors=3)
 neigh.fit(X_train, y_train)  # train #
 predictions = neigh.predict(X_test)
 acc = np.sum(predictions == y_test) / len(y_test)  # calculate accuracy #
-print("Built-in accuracy: " + str(acc))  # print accuracy percentage #
+print(COLORS.BOLD_HIGH_INTENSITY_PURPLE + "[+] Built-in accuracy: " + str(acc))  # print accuracy percentage #
+
+print(COLORS.BOLD_HIGH_INTENSITY_GREEN + "[✔] D O N E!")
+
+print(COLORS.BOLD_HIGH_INTENSITY_RED + "[✘] Closing" + COLORS.RESET_COLOR)
